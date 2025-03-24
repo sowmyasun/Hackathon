@@ -1,10 +1,10 @@
-package com.example.email.demo;
+package com.wellsfargo.email.ai;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DemoApplicationTests {
+class EmailProcessApplicationTests {
 
     @Test
     void contextLoads() {
