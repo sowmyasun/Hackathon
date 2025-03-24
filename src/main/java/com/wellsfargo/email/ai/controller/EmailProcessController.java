@@ -34,7 +34,7 @@ public class EmailProcessController {
         for(File emailFile: emailFiles ){
         if(emailFile.isFile()){
             String content = emailExtractionService.extractEmailContent(emailFile);
-            System.out.println(content);
+            System.out.println("File content-"+content);
         }
 
         }
