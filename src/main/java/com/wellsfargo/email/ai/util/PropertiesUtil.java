@@ -14,19 +14,6 @@ public class PropertiesUtil {
     @Value("${email.folder}")
     private String emailFolder;
 
-    @Value("${email.request.types}")
-    private String[] requestTypes;
-    @Value("${email.request.subtypes}")
-    private String[] requestSubTypes;
-
-    public String[] getRequestTypes() {
-        return requestTypes;
-    }
-
-    public String[] getRequestSubTypes() {
-        return requestSubTypes;
-    }
-
     public String getEmailFolder() {
         return emailFolder;
     }

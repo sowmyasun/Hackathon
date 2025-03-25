@@ -24,6 +24,8 @@ public class EmailHuggingFaceApi {
 
     private static final String API_URL = "https://api-inference.huggingface.co/models/facebook/bart-large-mnli";
     private static final String API_TOKEN = "";
+    private static final String API_URL = "https://api-inference.huggingface.co/models/gpt2";
+    private static final String API_TOKEN = "";
 
     private PropertiesUtil propertiesUtil;
 

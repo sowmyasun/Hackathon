@@ -1,10 +1,10 @@
 package com.wellsfargo.email.ai.controller;
 
-import com.wellsfargo.email.ai.config.EmailHuggingFaceApi;
 import com.wellsfargo.email.ai.service.EmailExtractionService;
 import com.wellsfargo.email.ai.util.PropertiesUtil;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,29 +18,25 @@ public class EmailProcessController {
 
     private EmailExtractionService emailExtractionService;
     private PropertiesUtil propertiesUtil;
-    private EmailHuggingFaceApi emailHuggingFaceApi;
+    private ResourceLoader resourceLoader;
 
 
-    public EmailProcessController(EmailExtractionService emailExtractionService, PropertiesUtil propertiesUtil, EmailHuggingFaceApi emailHuggingFaceApi) {
+    public EmailProcessController(EmailExtractionService emailExtractionService, PropertiesUtil propertiesUtil, ResourceLoader resourceLoader) {
         this.emailExtractionService = emailExtractionService;
         this.propertiesUtil = propertiesUtil;
-        this.emailHuggingFaceApi = emailHuggingFaceApi;
+        this.resourceLoader = resourceLoader;
     }
 
     @GetMapping("/process")
-    public void processEmail() throws Exception {
+    public void processEmail() throws IOException {
         Resource resource = new FileSystemResource(propertiesUtil.getEmailFolder());
         File[] emailFiles = resource.getFile().listFiles();
-        if(null!= emailFiles) {
-            for (File emailFile : emailFiles) {
-                if (emailFile.isFile()) {
-                    String content = emailExtractionService.extractEmailContent(emailFile);
-                    emailHuggingFaceApi.contentClassification(content);
+        for(File emailFile: emailFiles ){
+        if(emailFile.isFile()){
+            String content = emailExtractionService.extractEmailContent(emailFile);
+            System.out.println("File content-"+content);
+        }
 
-                    System.out.println("File content-" + content);
-                }
-
-            }
         }
 
 
