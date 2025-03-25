@@ -56,7 +56,7 @@ public class EmailHuggingFaceApi {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         String bodyStr = response.body().trim();
-        System.out.println("Response: " + bodyStr); // Debug log
+        System.out.println("Response : " + bodyStr); // Debug log
 
         JSONObject jsonResponse = new JSONObject(bodyStr);
 
