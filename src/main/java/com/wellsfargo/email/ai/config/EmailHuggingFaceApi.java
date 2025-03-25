@@ -1,12 +1,6 @@
 package com.wellsfargo.email.ai.config;
 
 import com.wellsfargo.email.ai.util.PropertiesUtil;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -16,15 +10,12 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Arrays;
 import java.util.List;
 
 @Component
 public class EmailHuggingFaceApi {
 
     private static final String API_URL = "https://api-inference.huggingface.co/models/facebook/bart-large-mnli";
-    private static final String API_TOKEN = "";
-    private static final String API_URL = "https://api-inference.huggingface.co/models/gpt2";
     private static final String API_TOKEN = "";
 
     private PropertiesUtil propertiesUtil;
@@ -39,13 +30,13 @@ public class EmailHuggingFaceApi {
 
         List<String> subRequestTypes = List.of(propertiesUtil.getRequestSubTypes());
 
-        String requestType  = classifyRequestSubRequestTyoes(text,requestTypes);
-        String subRequestType  = classifyRequestSubRequestTyoes(text,subRequestTypes);
+        String requestType  = classifyRequestSubRequestTypes(text,requestTypes);
+        String subRequestType  = classifyRequestSubRequestTypes(text,subRequestTypes);
 
         return requestType;
     }
 
-    private String classifyRequestSubRequestTyoes(String text,List<String> labels) throws IOException, InterruptedException {
+    private String classifyRequestSubRequestTypes(String text, List<String> labels) throws IOException, InterruptedException {
         JSONObject body = new JSONObject();
         body.put("inputs", text);
 
