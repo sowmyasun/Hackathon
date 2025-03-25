@@ -23,7 +23,7 @@ import java.util.List;
 public class EmailHuggingFaceApi {
 
     private static final String API_URL = "https://api-inference.huggingface.co/models/facebook/bart-large-mnli";
-    private static final String API_TOKEN = "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";
+    private static final String API_TOKEN = "";
 
     private PropertiesUtil propertiesUtil;
 
