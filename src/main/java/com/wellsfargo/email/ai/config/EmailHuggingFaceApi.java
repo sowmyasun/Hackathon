@@ -32,7 +32,6 @@ public class EmailHuggingFaceApi {
 
         String requestType  = classifyRequestSubRequestTypes(text,requestTypes);
         String subRequestType  = classifyRequestSubRequestTypes(text,subRequestTypes);
-
         return requestType;
     }
 
