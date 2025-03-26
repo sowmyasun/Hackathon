@@ -1,10 +1,12 @@
 package com.wellsfargo.email.ai.controller;
 
+import com.wellsfargo.email.ai.EmailResponseDTO;
 import com.wellsfargo.email.ai.config.EmailHuggingFaceApi;
 import com.wellsfargo.email.ai.service.EmailExtractionService;
 import com.wellsfargo.email.ai.util.PropertiesUtil;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,21 +30,22 @@ public class EmailProcessController {
     }
 
     @GetMapping("/process")
-    public void processEmail() throws Exception {
+    public ResponseEntity<EmailResponseDTO> processEmail() throws Exception {
         Resource resource = new FileSystemResource(propertiesUtil.getEmailFolder());
+        EmailResponseDTO emailResponseDTO = new EmailResponseDTO();
+
         File[] emailFiles = resource.getFile().listFiles();
         if(null!= emailFiles) {
             for (File emailFile : emailFiles) {
                 if (emailFile.isFile()) {
                     String content = emailExtractionService.extractEmailContent(emailFile);
-                    emailHuggingFaceApi.contentClassification(content);
+                    emailResponseDTO =emailHuggingFaceApi.contentClassification(content);
                     System.out.println("File content-" + content);
                 }
 
             }
         }
-
-
+        return ResponseEntity.ok(emailResponseDTO);
     }
 }
 
