@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/email")
@@ -30,8 +31,9 @@ public class EmailProcessController {
     }
 
     @GetMapping("/process")
-    public ResponseEntity<EmailResponseDTO> processEmail() throws Exception {
+    public ResponseEntity<List<EmailResponseDTO>> processEmail() throws Exception {
         Resource resource = new FileSystemResource(propertiesUtil.getEmailFolder());
+        List<EmailResponseDTO> emailResponseDTOList = new ArrayList<>();
         EmailResponseDTO emailResponseDTO = new EmailResponseDTO();
 
         File[] emailFiles = resource.getFile().listFiles();
@@ -40,11 +42,12 @@ public class EmailProcessController {
                 if (emailFile.isFile()) {
                     String content = emailExtractionService.extractEmailContent(emailFile);
                     emailResponseDTO =emailHuggingFaceApi.contentClassification(content);
-                    System.out.println("File content-" + content);
+                    emailResponseDTOList.add(emailResponseDTO);
+                    System.out.println("Email content-" + emailResponseDTOList);
                 }
             }
         }
-        return ResponseEntity.ok(emailResponseDTO);
+        return ResponseEntity.ok(emailResponseDTOList);
     }
 }
 
