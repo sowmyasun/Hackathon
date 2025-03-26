@@ -5,8 +5,6 @@ import com.wellsfargo.email.ai.util.PropertiesUtil;
 import org.apache.tika.Tika;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.io.TikaInputStream;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import javax.mail.BodyPart;
@@ -45,7 +43,7 @@ public class EmailExtractionService {
             InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
             BufferedReader bufferedReader = new BufferedReader(reader);
             emailDto = new EmailDto();
-            emailDto = extractAttachmentContent(emailFile, emailDto,propertiesUtil.getEmailFolder());
+            emailDto = processEmailAttachments(emailFile, emailDto,propertiesUtil.getEmailFolder());
             content = emailDto.isHasAttachment() ? new StringBuilder(emailDto.getEmailContent()) : new StringBuilder();
             String line;
             while ((line = bufferedReader.readLine()) != null) {
@@ -61,7 +59,7 @@ public class EmailExtractionService {
         return content.toString();
     }
 
-    public static EmailDto extractAttachmentContent(File file,EmailDto emailDto,String attachPath) throws Exception {
+    public static EmailDto processEmailAttachments(File file, EmailDto emailDto, String attachPath) throws Exception {
         if (!file.exists()) {
             throw new IllegalArgumentException("File not found: " + file);
         }
@@ -108,7 +106,7 @@ public class EmailExtractionService {
                     String savedPath = attachPath + part.getFileName();
                     System.out.println("Saved: " + savedPath);
                     saveAttachment(attachmentStream, savedPath);
-                    String content = extractAttachmentContent(savedPath,emailDto);
+                    String content = extractAttachmentContent(savedPath);
                     emailDto.setEmailContent(content);
                     hasAttachments = true;
                 } else if (contentType != null && contentType.toLowerCase().startsWith("application")) {
@@ -130,7 +128,7 @@ public class EmailExtractionService {
         }
     }
 
-    public static String extractAttachmentContent(String filePath, EmailDto emailDto) throws IOException, TikaException {
+    public static String extractAttachmentContent(String filePath) throws IOException, TikaException {
         Tika tika = new Tika();
         File file = new File(filePath);
 
