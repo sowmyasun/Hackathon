@@ -2,20 +2,15 @@ package com.wellsfargo.email.ai.config;
 
 import com.wellsfargo.email.ai.EmailResponseDTO;
 import com.wellsfargo.email.ai.util.PropertiesUtil;
-import org.apache.tika.Tika;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,7 +102,7 @@ public class EmailHuggingFaceApi {
 
         // Fallback to LLM if anything is missing
         if (!fields.containsKey("amount") || !fields.containsKey("dealId")) {
-            fields.putAll(extractFieldsWithLLM(content));
+           // fields.putAll(extractFieldsWithLLM(content));
         }
 
         return fields;

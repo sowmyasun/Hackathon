@@ -42,7 +42,6 @@ public class EmailProcessController {
                     emailResponseDTO =emailHuggingFaceApi.contentClassification(content);
                     System.out.println("File content-" + content);
                 }
-
             }
         }
         return ResponseEntity.ok(emailResponseDTO);
