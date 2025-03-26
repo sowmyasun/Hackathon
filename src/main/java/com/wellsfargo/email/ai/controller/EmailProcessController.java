@@ -36,7 +36,6 @@ public class EmailProcessController {
                 if (emailFile.isFile()) {
                     String content = emailExtractionService.extractEmailContent(emailFile);
                     emailHuggingFaceApi.contentClassification(content);
-
                     System.out.println("File content-" + content);
                 }
 

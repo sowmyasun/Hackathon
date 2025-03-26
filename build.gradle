@@ -27,6 +27,8 @@ dependencies {
     implementation 'org.apache.tika:tika-core:2.8.0'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.1.0'
     implementation 'javax.mail:mail:1.4.7'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
 }
 
